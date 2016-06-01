@@ -23,6 +23,8 @@ bool Application2D::startup() {
 
 	m_font = new Font("./bin/font/consolas.ttf", 32);
 
+	testObj1.m_texture = new Texture("./bin/textures/crate.png");
+
 	return true;
 }
 
@@ -53,8 +55,11 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_spriteBatch->begin();
 
-	m_spriteBatch->drawSprite(m_texture, 200, 200, 100, 100);
+	m_spriteBatch->drawSpriteTransformed3x3(testObj1.m_texture, *testObj1.localTransform.value);
 
+	testObj1.Rotate(0.1f);
+
+	/*
 	m_spriteBatch->drawLine(300, 300, 600, 400, 10, 1);
 
 	m_spriteBatch->setSpriteColor(1, 0, 0, 1);
@@ -62,7 +67,7 @@ void Application2D::draw() {
 
 	m_spriteBatch->setSpriteColor(0, 1, 1, 1);
 	m_spriteBatch->drawText(m_font, "OMG BBQ!", 200, 400);
-	m_spriteBatch->drawText(m_font, "Yeaaahhhhh", 200, 300);
+	m_spriteBatch->drawText(m_font, "Yeaaahhhhh", 200, 300);*/
 
 	// done drawing sprites
 	m_spriteBatch->end();	
