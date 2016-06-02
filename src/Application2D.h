@@ -10,6 +10,8 @@ class Font;
 class Application2D : public BaseApplication {
 public:
 	GameObject testObj1;
+	GameObject testObj2;
+	GameObject root;
 
 	Application2D();
 	virtual ~Application2D();
@@ -26,5 +28,7 @@ protected:
 	Texture*		m_texture;
 	Font*			m_font;
 
+	MathFuncs::Vector2 testPos;
+	MathFuncs::Vector2 testScale;
 	float test = 0;
 };

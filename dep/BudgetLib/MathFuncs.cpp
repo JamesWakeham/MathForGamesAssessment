@@ -489,7 +489,7 @@ namespace MathFuncs
 	Matrix3 Matrix3::SetRotateZ(float theta)
 	{
 		return Matrix3( cos(theta), -sin(theta),0, 
-						sin(theta), -cos(theta),0,
+						sin(theta),  cos(theta),0,
 						0		  ,0           ,1);
 	}
 
