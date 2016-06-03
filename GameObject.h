@@ -15,7 +15,7 @@ GameObject();
 ~GameObject();
 
 GameObject *pTransform;
-std::list<GameObject*> Children;
+std::vector<GameObject*> children;
 
 void GameObject::SetParent(GameObject *gameObject);
 
@@ -39,6 +39,8 @@ void GameObject::UpdateGlobalTransform();
 float GameObject::GetRot();
 MathFuncs::Vector2 GameObject::GetScale();
 MathFuncs::Vector2 GameObject::GetPos();
+
+void GameObject::UpdateTransforms();
 
 Texture*		m_texture;
 private:

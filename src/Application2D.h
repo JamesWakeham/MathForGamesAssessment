@@ -2,6 +2,8 @@
 
 #include "BaseApplication.h"
 #include "GameObject.h"
+#include <ostream>
+#include "SaveSystem.h"
 
 class SpriteBatch;
 class Texture;
@@ -9,9 +11,14 @@ class Font;
 
 class Application2D : public BaseApplication {
 public:
-	GameObject testObj1;
-	GameObject testObj2;
-	GameObject root;
+	std::vector<GameObject*> objects;
+    GameObject root;
+
+	GameObject test1;
+	GameObject test2;
+	GameObject test3;
+
+	SaveSystem save;
 
 	Application2D();
 	virtual ~Application2D();

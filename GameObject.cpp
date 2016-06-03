@@ -2,6 +2,7 @@
 
 GameObject::GameObject()
 {
+	pTransform = nullptr;
 	globalTransform = MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	localTransform = MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 }
@@ -14,7 +15,7 @@ GameObject::~GameObject()
 void GameObject::SetParent(GameObject *gameObject)
 {
 pTransform = gameObject;
-gameObject->Children.push_back(this);
+gameObject->children.push_back(this);
 }
 
 void GameObject::Translate(MathFuncs::Vector2 newPos)
@@ -25,9 +26,7 @@ void GameObject::Translate(MathFuncs::Vector2 newPos)
 		1,0, newPos.x,
 		0,1, newPos.y,
 		0, 0,1);
-	MathFuncs::Matrix3 temp = MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
-	temp = tempVec * temp;
-	localTransform = temp * localTransform;
+	localTransform = tempVec * localTransform;
 }
 
 void GameObject::Rotate(float deg)
@@ -35,13 +34,13 @@ void GameObject::Rotate(float deg)
 	rot += deg;
 	MathFuncs::Matrix3 temp = MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	temp = temp.SetRotateZ(deg);
-	localTransform = localTransform * temp;
+	localTransform = temp *localTransform;// *temp;
 }
 
 void GameObject::Scale(MathFuncs::Vector2 newScale)
 {
-	scale.x += newScale.x;
-	scale.y += newScale.y;
+	scale.x = newScale.x;
+	scale.y = newScale.y;
 
 	MathFuncs::Matrix3 tempVec = MathFuncs::Matrix3(
 		newScale.x, 0, 0,
@@ -64,13 +63,9 @@ void GameObject::GTranslate(MathFuncs::Vector2 newPos)
 
 void GameObject::GRotate(float parentRot)
 {
-	MathFuncs::Matrix3 tempVec = MathFuncs::Matrix3(
-		1, 0, pTransform->GetPos().x,
-		0, 1, pTransform->GetPos().y,
-		0, 0, 1);
-	MathFuncs::Matrix3 temp = MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1) * tempVec;
+	MathFuncs::Matrix3 temp = MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	temp = temp.SetRotateZ(parentRot + rot);
-	globalTransform = globalTransform * temp;
+	globalTransform = temp *globalTransform;// *temp;
 }
 
 void GameObject::GScale(MathFuncs::Vector2 newScale)
@@ -79,8 +74,7 @@ void GameObject::GScale(MathFuncs::Vector2 newScale)
 		newScale.x, 0, 0,
 		0, newScale.y, 0,
 		0, 0, 1);
-	MathFuncs::Matrix3 tempLocalScale = MathFuncs::Matrix3(GetScale().x, 0, 0, 0, GetScale().y, 0, 0, 0, 1);
-	globalTransform = tempLocalScale * tempParentScale;
+	globalTransform = localTransform * tempParentScale;// *localTransform;
 }
 
 MathFuncs::Matrix3 GameObject::IfTranslate(MathFuncs::Vector2 newPos)
@@ -114,10 +108,12 @@ MathFuncs::Matrix3 GameObject::IfScale(MathFuncs::Vector2 newScale)
 
 void GameObject::UpdateGlobalTransform()
 {
-	//globalTransform = MathFuncs::Matrix3();
-	GScale(pTransform->GetScale());
-	GRotate(pTransform->GetRot());
-	GTranslate(pTransform->GetPos());
+	localTransform = MathFuncs::Matrix3(scale.x, 0, 0, 0, scale.x, 0, 0, 0, 1);
+	localTransform = localTransform * MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1).SetRotateZ(rot);
+	localTransform = localTransform * MathFuncs::Matrix3(1, 0, pos.x, 0, 1, pos.y, 0, 0, 1);
+
+	globalTransform = localTransform * pTransform->globalTransform;
+
 }
 
 float GameObject::GetRot()
@@ -133,4 +129,15 @@ MathFuncs::Vector2 GameObject::GetScale()
 MathFuncs::Vector2 GameObject::GetPos()
 {
 	return pos;
+}
+
+void GameObject::UpdateTransforms()
+{
+	if (pTransform != nullptr)
+		UpdateGlobalTransform();
+	else
+		globalTransform = localTransform;	for (int i = 0; i < children.size(); ++i)
+	{
+		children[i]->UpdateTransforms();
+	}
 }

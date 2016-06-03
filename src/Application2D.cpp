@@ -24,14 +24,21 @@ bool Application2D::startup() {
 
 	m_font = new Font("./bin/font/consolas.ttf", 32);
 
-	testObj1.m_texture = new Texture("./bin/textures/crate.png");
-	testObj1.Scale(MathFuncs::Vector2(0.1, 0.1f));
-	testObj2.Scale(MathFuncs::Vector2(0.05f, 0.05f));
-	testObj1.Translate(MathFuncs::Vector2(640, 320));
-	testObj2.Translate(MathFuncs::Vector2(800, 320));
+	test1.SetParent(&root);
+	test2.SetParent(&test1);
+	test3.SetParent(&test2);
 
-	testObj2.SetParent(&testObj1);
-	testObj1.SetParent(&root);
+	objects.push_back(&test1);
+	objects.push_back(&test2);
+	objects.push_back(&test3);
+
+	test1.Scale(MathFuncs::Vector2(0.5f, 0.5f));
+	test2.Scale(MathFuncs::Vector2(0.5f, 0.5f));
+	test3.Scale(MathFuncs::Vector2(0.5f, 0.5f));
+
+	test1.Translate(MathFuncs::Vector2(300, 300));
+	test2.Translate(MathFuncs::Vector2(300, 300));
+	test3.Translate(MathFuncs::Vector2(300, 300));
 
 	return true;
 }
@@ -49,26 +56,31 @@ bool Application2D::update(float deltaTime) {
 	
 	// close the application if the window closes or we press escape
 	if (hasWindowClosed() || isKeyPressed(GLFW_KEY_ESCAPE))
+	{
+		save.Write("test",save);
 		return false;
+	}
 
 
 	if (isKeyPressed(GLFW_KEY_W)) {
-		testObj1.Translate(MathFuncs::Vector2(0, 3));
+		test1.Translate(MathFuncs::Vector2(0, 3));
 	}
 	else if (isKeyPressed(GLFW_KEY_S)) {
-		testObj1.Translate(MathFuncs::Vector2(0, -3));
+		test1.Translate(MathFuncs::Vector2(0, -3));
 	}
 
 	if (isKeyPressed(GLFW_KEY_D)) {
-		testObj1.Translate(MathFuncs::Vector2(3, 0));
+		test1.Translate(MathFuncs::Vector2(3, 0));
 	}
 	else if (isKeyPressed(GLFW_KEY_A)) {
-		testObj1.Translate(MathFuncs::Vector2(-3, 0));
+		test1.Translate(MathFuncs::Vector2(-3, 0));
 	}
 
 
 	if (isKeyPressed(GLFW_KEY_LEFT)) {
-		testObj1.Rotate(0.05f);
+		test1.Rotate(0.05f);
+	}	if (isKeyPressed(GLFW_KEY_RIGHT)) {
+		test2.Rotate(0.05f);
 	}
 	//else if (isKeyPressed(GLFW_KEY_RIGHT)) {
 	//	testObj1.Rotate(-0.05f);
@@ -84,8 +96,7 @@ bool Application2D::update(float deltaTime) {
 	//	testObj1.Scale(testScale);
 	//}
 
-	testObj1.UpdateGlobalTransform();
-	testObj2.UpdateGlobalTransform();
+	root.UpdateTransforms();
 	// the applciation closes if we return false
 	return true;
 }
@@ -97,8 +108,11 @@ void Application2D::draw() {
 
 	// begin drawing sprites
 	m_spriteBatch->begin();
-	m_spriteBatch->drawSpriteTransformed3x3(testObj1.m_texture, *testObj2.globalTransform.value);
-	m_spriteBatch->drawSpriteTransformed3x3(testObj1.m_texture, *testObj1.globalTransform.value);
+
+	for each (GameObject* var in objects)
+	{
+		m_spriteBatch->drawSpriteTransformed3x3(m_texture, *var->globalTransform.value);
+	}
 
 
 	/*
@@ -114,3 +128,5 @@ void Application2D::draw() {
 	// done drawing sprites
 	m_spriteBatch->end();	
 }
+
+
