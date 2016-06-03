@@ -108,7 +108,7 @@ MathFuncs::Matrix3 GameObject::IfScale(MathFuncs::Vector2 newScale)
 
 void GameObject::UpdateGlobalTransform()
 {
-	localTransform = MathFuncs::Matrix3(scale.x, 0, 0, 0, scale.x, 0, 0, 0, 1);
+	localTransform = MathFuncs::Matrix3(scale.x, 0, 0, 0, scale.y, 0, 0, 0, 1);
 	localTransform = localTransform * MathFuncs::Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1).SetRotateZ(rot);
 	localTransform = localTransform * MathFuncs::Matrix3(1, 0, pos.x, 0, 1, pos.y, 0, 0, 1);
 

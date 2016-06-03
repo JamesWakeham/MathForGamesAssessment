@@ -82,7 +82,8 @@ bool Application2D::update(float deltaTime) {
 
 	if (isKeyPressed(GLFW_KEY_LEFT)) {
 		test1.Rotate(0.05f);
-	}	if (isKeyPressed(GLFW_KEY_RIGHT)) {
+	}	
+	if (isKeyPressed(GLFW_KEY_RIGHT)) {
 		test2.Rotate(0.05f);
 	}
 	//else if (isKeyPressed(GLFW_KEY_RIGHT)) {
