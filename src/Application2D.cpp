@@ -40,6 +40,9 @@ bool Application2D::startup() {
 	test2.Translate(MathFuncs::Vector2(300, 300));
 	test3.Translate(MathFuncs::Vector2(300, 300));
 
+	//save.Write(&test1, &test2, &test3);
+	save.Read(&test1, &test2, &test3);
+
 	return true;
 }
 
@@ -57,7 +60,7 @@ bool Application2D::update(float deltaTime) {
 	// close the application if the window closes or we press escape
 	if (hasWindowClosed() || isKeyPressed(GLFW_KEY_ESCAPE))
 	{
-		save.Write("test",save);
+		save.Write(&test1, &test2, &test3);
 		return false;
 	}
 
