@@ -136,7 +136,9 @@ void GameObject::UpdateTransforms()
 	if (pTransform != nullptr)
 		UpdateGlobalTransform();
 	else
-		globalTransform = localTransform;	for (int i = 0; i < children.size(); ++i)
+		globalTransform = localTransform;
+
+	for (int i = 0; i < children.size(); ++i)
 	{
 		children[i]->UpdateTransforms();
 	}

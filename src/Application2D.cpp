@@ -24,6 +24,21 @@ bool Application2D::startup() {
 
 	m_font = new Font("./bin/font/consolas.ttf", 32);
 
+
+
+	if (!save.Read(&test1, &test2, &test3)) 
+	{
+
+
+		test1.Scale(MathFuncs::Vector2(0.5f, 0.5f));
+		test2.Scale(MathFuncs::Vector2(0.5f, 0.5f));
+		test3.Scale(MathFuncs::Vector2(0.5f, 0.5f));
+
+		test1.Translate(MathFuncs::Vector2(300, 300));
+		test2.Translate(MathFuncs::Vector2(300, 300));
+		test3.Translate(MathFuncs::Vector2(300, 300));
+	}
+
 	test1.SetParent(&root);
 	test2.SetParent(&test1);
 	test3.SetParent(&test2);
@@ -31,17 +46,6 @@ bool Application2D::startup() {
 	objects.push_back(&test1);
 	objects.push_back(&test2);
 	objects.push_back(&test3);
-
-	test1.Scale(MathFuncs::Vector2(0.5f, 0.5f));
-	test2.Scale(MathFuncs::Vector2(0.5f, 0.5f));
-	test3.Scale(MathFuncs::Vector2(0.5f, 0.5f));
-
-	test1.Translate(MathFuncs::Vector2(300, 300));
-	test2.Translate(MathFuncs::Vector2(300, 300));
-	test3.Translate(MathFuncs::Vector2(300, 300));
-
-	//save.Write(&test1, &test2, &test3);
-	save.Read(&test1, &test2, &test3);
 
 	return true;
 }
@@ -115,6 +119,7 @@ void Application2D::draw() {
 
 	for each (GameObject* var in objects)
 	{
+		std::cout << var->GetPos().x;
 		m_spriteBatch->drawSpriteTransformed3x3(m_texture, *var->globalTransform.value);
 	}
 
@@ -127,7 +132,8 @@ void Application2D::draw() {
 
 	m_spriteBatch->setSpriteColor(0, 1, 1, 1);
 	m_spriteBatch->drawText(m_font, "OMG BBQ!", 200, 400);
-	m_spriteBatch->drawText(m_font, "Yeaaahhhhh", 200, 300);*/
+	m_spriteBatch->drawText(m_font, "Yeaaahhhhh", 200, 300);
+	*/
 
 	// done drawing sprites
 	m_spriteBatch->end();	
