@@ -1,5 +1,6 @@
 ﻿  GameObject.cpp
 c:\users\james.wakeham\documents\github\mathforgamesassessment\gameobject.cpp(139): warning C4018: '<': signed/unsigned mismatch
+cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
 glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\james.wakeham\Documents\GitHub\MathForGamesAssessment\bin\glfw.pdb'; linking object as if no debug info
 glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\james.wakeham\Documents\GitHub\MathForGamesAssessment\bin\glfw.pdb'; linking object as if no debug info
 glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\james.wakeham\Documents\GitHub\MathForGamesAssessment\bin\glfw.pdb'; linking object as if no debug info
